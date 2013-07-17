@@ -1,0 +1,23 @@
+<!--This is one uses a button with a javascript function to get the url but does not work
+in the bookmark toolbar.  You can not drag the button into the toolbar
+-->
+<!doctype html>
+<HTML>
+<HEAD>
+<TITLE>MY First Script</TITLE>
+</HEAD>
+
+<BODY>
+<H1>Let's Script3...</H1>
+<input type="button" value="click me" onclick=getUrl();>
+<HR>
+<SCRIPT LANGUAGE="JavaScript">
+    function getUrl() {
+        var myUrl = document.URL;
+        alert(document.URL);
+        //alert("junk");
+    }
+
+</SCRIPT>
+</BODY>
+</HTML> 

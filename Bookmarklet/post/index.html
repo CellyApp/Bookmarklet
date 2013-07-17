@@ -1,0 +1,127 @@
+<!-- This html contains the page that poped up when the bookmarklet is selected -->
+<!DOCTYPE html>
+<!--[if IE 8]>                  <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Celly Bookmarklet</title>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <!-- TODO- Modified to run in local enviroment-->
+        <script src="../js/vendor/custom.modernizr.js"></script>
+        <script src="../libs/chosen/public/chosen.jquery.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../js/scripts.js"></script>
+        <link rel="stylesheet" href="../css/foundation.css" />
+
+        <link rel="stylesheet" href="../libs/chosen/public/chosen.css" />
+        <style type="text/css" media="all">
+            /* fix rtl for demo */
+            .chzn-rtl .chzn-search { left: -9000px; }
+            .chzn-rtl .chzn-drop { left: -9000px; }
+        </style>
+        <!-- get the dosis fmaily from google-->
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Dosis">
+        <style>
+            body { 
+                font-family: Dosis;
+                font-size: 20px;
+                background: url('https://dneprqwuiln6a.cloudfront.net/celly/images/debut_light.png');
+            }
+            h1,h2,h3,h4,h5,h6 { 
+                font-family: Dosis;
+            }
+            textarea { 
+                height: auto;
+            }
+        </style>
+        <link rel="icon" type="image/png" href="https://cel.ly/favicon.ico">
+        <nav class="top-bar fixed">
+            <section class="top-bar-section">
+                <!-- TODO- Modify the paths for production locations-->
+                <ul class="left">
+                    <ul>
+                        <li class="name" style="text-align:left;"><a style="padding-left:5px;" href="http://cel.ly">
+                                <img title="Celly" alt="Celly" src="https://dneprqwuiln6a.cloudfront.net/celly/images/iconmark.png"></a>
+                        </li>
+                        <li class="toggle-topbar"><a href="#"></a></li>
+                    </ul>
+                </ul>
+                <ul class="right">
+                    <!-- This line logs out the current user. Working -->
+                    <li><a href="http://cel.ly/logout">logout</a></li>
+                    <li class="has-dropdown"><a href="http://cel.ly/help">help</a>
+                        <ul class="dropdown">
+                            <li class="has-dropdown"><a title="About" href="http://cel.ly/about">about </a>
+                                <ul class="dropdown">
+                                    <li><a title="About Celly Bookmakrlet" href="http://google.com">bookmarklet</a></li>
+                                    <li><a title="About Celly" href="http://cel.ly/about">celly</a></li>
+                                </ul>
+                            </li>
+                            <!--<li><a title="About Celly" href="http://cel.ly/about">about celly</a></li> -->
+                            <li><a title="Support" target="_blank" href="http://support.cel.ly">support </a></li>
+                            <li><a href="http://cel.ly/frontpage">front page </a></li>
+                            <li><a title="Blog" href="http://blog.cel.ly">blog </a></li>
+                            <li><a title="contact" target="_blank" href="http://cel.ly/contact">contact </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </head>
+    <body>
+
+        <!-- This is the celly image, always centered on the page -->
+        <div class="row" align="center">
+            <div class="large-12 columns">
+                <img src="https://dneprqwuiln6a.cloudfront.net/celly/images/logoBlackText200.png"
+                    alt="Celly Logo"> 
+            </div>
+        </div>
+
+        <!--  This contains cells drop down and it's label.  Strech when small, 
+        center when lagre, 4 columns wide -->
+        <div class="row">
+            <!-- put in blank column so when the screen is large it goes 
+            to the center -->
+            <div class="large-4 columns"><label></label></div>
+            <div class="large-4 columns">
+                <label for="cellDropDown">Select a Cell</label>
+                <select id="cellDropDown" data-placeholder="Choose a Cell..."  multiple class="medium chzn-select" >
+                </select>
+            </div>
+            <div class="large-4 columns"><label></label></div>
+        </div>
+
+        <!-- This contains the text area.  Strech when small, center when lagre, 
+        8 columns wide -->
+        <div class="row">
+            <!-- put in blank column so when the screen is large it 
+            goes to the center -->
+            <div class="large-2 columns"><label></label></div>
+            <div class="large-8 columns">
+                <label>Text Area - Resizable:</label>
+                <textarea placeholder="Post" id="post_textarea">Example: http://www.pdx.edu</textarea>
+            </div>
+            <div class="large-2 columns"><label></label></div>
+        </div>
+
+        <!-- This contains the buttons. They are alwyas centered -->
+        <div class="row" align="center">
+            <div class="large-12 columns">
+                <a href="#" class="medium button">Post</a>
+                <a href="#" class="medium button">Cancel</a>
+            </div>
+        </div>
+        <script>
+            /*TODO- Modified to run in local enviroment*/
+            document.write('<script src=../js/vendor/' + ('__proto__' in {} ? 'zepto' : 'jquery') + '.js><\/script>')
+        </script>
+        <!--TODO- Modified to run in local enviroment-->
+        <script src="../js/foundation/foundation.topbar.js"></script>
+        <script src="../js/foundation.min.js"></script>
+        <script>
+            $(document).foundation();
+        </script>
+    </body>
+</html>

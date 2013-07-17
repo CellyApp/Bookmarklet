@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <style>
+            a.button{
+                cursor: pointer;
+                display: inline-block;
+                text-align: center;
+                height: 44px;
+                line-height: 44px;
+                font-family: "Helvetica Neue",Helvetica,sans-serif;
+                text-shadow: 0px -1px 1px rgba(0, 0, 0, 0.33);
+                font-size: 18px;
+                border: 1px solid rgb(152, 11, 14);
+                border-radius: 3px 3px 3px 3px;
+                padding: 0px 18px;
+                background: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgb(10, 20, 30) 100%) repeat scroll 0% 0% transparent;
+                color: #51c440;
+                text-decoration:none;
+            }
+            a.bookmarklet{
+                border: none;
+                color: #cae4e5;
+                background: #42413a url('submit-btn.gif') no-repeat right center;
+                text-decoration: none;
+                cursor: default;
+                -webkit-align-items: flex-start;
+                text-align: center;
+                text-transform: uppercase;
+                padding: 2px 20px 2px 5px;
+                -webkit-border-radiu: 2px;
+                -moz-border-radius: 2px;
+                border-radius: 2px;
+                margin: 5px 5px 5px 0;
+            }
+        </style>
+        
+        <script>
+        function Cellybookmarklet()
+		{
+		var name=prompt("Enter a bookmarklet name?");
+		if (name!=null && name!="")
+  		{alert("Well " + name + ". To install the Pin It button, drag it to your bookmarks toolbar!");}
+		else{alert("Hey, I asked you a name!");}
+		}
+        </script>
+    </head>
+    <body>
+        <form>
+        <fieldset>
+            <legend>Santiago's examples</legend>
+            <a onclick="alert('To install the Pin It button, drag it to your bookmarks toolbar!');return false;" href="javascript:void((function(d){var%20e=d.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','//guimelsa.com/celly/scripts/test-santiago.js?r='+Math.random()*99999999);d.body.appendChild(e)})(document));" class="button">Celly bookmarklet</a><br>
+            <a onclick="alert('To install the Pin It button, drag it to your bookmarks toolbar!');return false;" href="javascript:void((function(d){
+            var e=d.createElement('script'),
+            div=d.createElement('div');
+            div.setAttribute('id', 'cellybmrklt');
+            e.setAttribute('type','text/javascript');
+            e.setAttribute('charset','UTF-8');
+            e.setAttribute('src','//guimelsa.com/celly/scripts/test2-santiago.js');
+            div.appendChild(e);
+            d.body.appendChild(div)
+            })(document));
+            " class="button">Celly 2</a>&nbsp;<b><i>Workaround window popup</i></b>
+        </fieldset>
+        <fieldset>
+            <legend>Loc's example</legend>
+            <a onclick="alert('To install the Pin It button, drag it to your bookmarks toolbar!');return false;"
+                href="javascript:void((function(){
+                _s = document.createElement('script');
+                _s.src = 'http://' + location.host + '/celly/scripts/bmlet-login.js?x=' + (Math.random());
+                document.getElementsByTagName('head')[0].appendChild(_s);
+                }()
+                ));" class="button">Celly bookmarklet login</a>
+        </fieldset>
+        <fieldset>
+            <legend>Travi's example</legend>
+            <h1>Let's Script...<a class="button" href="javascript:(function(){ var script=document.createElement('SCRIPT'); script.src='http://guimelsa.com/celly/travis/script6.js'; document.body.appendChild(script);})()"> Do Something6! </a></h1>
+        </fieldset>
+	 <fieldset>
+		<legend>Khang's example</legend>
+		<a type="button" onclick="alert('To install the Pin It button, drag it to your bookmarks toolbar!');return false;"
+		   href="javascript:void((function(){ S = document.createElement('script'); S.src ='http://guimelsa.com/celly/Khang/test.js'; document.getElementsByTagName('head')[0].appendChild(S);
+                }()	
+                ));" class="button">Cellybookmarklet</a>
+	 </fieldset>
+     <fieldset>
+<legend>Alex's Bookmarklet Sample</legend>
+        <a class="bookmarklet" onclick="alert('To use this bookmarklet, please drag me into your bookmarks bar and click me there!\n\nThanks!');return false;" href="#">Post to Cell</a>
+     </fieldset>
+            <div class="more-info">
+        <p>More info: <a href="http://portlandstatecapstone.wordpress.com/about/">Celly Project Group</a></p>
+        </div>
+    </body>
+</html>
