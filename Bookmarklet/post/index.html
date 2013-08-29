@@ -1,26 +1,28 @@
 <!-- This html contains the page that poped up when the bookmarklet is selected -->
 <!DOCTYPE html>
-<!--[if IE 8]>                  <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <title>Celly Bookmarklet</title>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <!-- TODO- Modified to run in local enviroment-->
-        <script src="../js/vendor/custom.modernizr.js"></script>
-        <script src="../libs/chosen/public/chosen.jquery.js" type="text/javascript"></script>
-        <script type="text/javascript" src="../js/scripts.js"></script>
+        <script type="text/javascript" src="../js/foundation.min.js"></script>
+        <script type="text/javascript" src="../js/foundation/foundation.topbar.js"></script>
+        <script type="text/javascript" src="../js/foundation/foundation.reveal.js"></script>
+        <script type="text/javascript" src="../js/vendor/custom.modernizr.js"></script>
+        <script type="text/javascript" src="../libs/chosen/public/chosen.jquery.js" type="text/javascript"></script>
+        <!--[if IE]><script type="text/javascript" src="../libs/jQuery.XDomainRequest.js"></script><![endif]-->
+        <!--[if lt IE 8]><script type="text/javascript" src="../libs/json3.js"></script><![endif]-->
+        <script type="text/javascript" src="../libs/celly/settings.min.js"></script>
+        <script type="text/javascript" src="../libs/celly/cellyAPI.min.js"></script>
+        <script type="text/javascript" src="../js/scripts.min.js"></script>
         <link rel="stylesheet" href="../css/foundation.css" />
-
         <link rel="stylesheet" href="../libs/chosen/public/chosen.css" />
         <style type="text/css" media="all">
-            /* fix rtl for demo */
             .chzn-rtl .chzn-search { left: -9000px; }
             .chzn-rtl .chzn-drop { left: -9000px; }
         </style>
-        <!-- get the dosis fmaily from google-->
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Dosis">
         <style>
             body { 
@@ -34,94 +36,88 @@
             textarea { 
                 height: auto;
             }
+            nav.top-bar{margin-bottom: 0.8em;}
+            div.submit a{margin-bottom:0;}
         </style>
         <link rel="icon" type="image/png" href="https://cel.ly/favicon.ico">
-        <nav class="top-bar fixed">
+    </head>
+    <body>
+        <nav class="top-bar">
+            <ul class="title-area">
+                <!-- Title Area -->
+                <li class="name">
+                  <h1><a target="_blank" href="http://cel.ly"><img title="Celly" alt="Celly" src="https://dneprqwuiln6a.cloudfront.net/celly/images/iconmark.png"></a></h1>
+                </li>
+                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <!--<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>-->
+                <li class="toggle-topbar"><a href="#"><span>Menu</span></a></li>
+              </ul>
             <section class="top-bar-section">
                 <!-- TODO- Modify the paths for production locations-->
                 <ul class="left">
-                    <ul>
-                        <li class="name" style="text-align:left;"><a style="padding-left:5px;" href="http://cel.ly">
-                                <img title="Celly" alt="Celly" src="https://dneprqwuiln6a.cloudfront.net/celly/images/iconmark.png"></a>
-                        </li>
-                        <li class="toggle-topbar"><a href="#"></a></li>
-                    </ul>
                 </ul>
                 <ul class="right">
                     <!-- This line logs out the current user. Working -->
-                    <li><a href="http://cel.ly/logout">logout</a></li>
-                    <li class="has-dropdown"><a href="http://cel.ly/help">help</a>
-                        <ul class="dropdown">
-                            <li class="has-dropdown"><a title="About" href="http://cel.ly/about">about </a>
-                                <ul class="dropdown">
-                                    <li><a title="About Celly Bookmakrlet" href="http://google.com">bookmarklet</a></li>
-                                    <li><a title="About Celly" href="http://cel.ly/about">celly</a></li>
-                                </ul>
-                            </li>
-                            <!--<li><a title="About Celly" href="http://cel.ly/about">about celly</a></li> -->
-                            <li><a title="Support" target="_blank" href="http://support.cel.ly">support </a></li>
-                            <li><a href="http://cel.ly/frontpage">front page </a></li>
-                            <li><a title="Blog" href="http://blog.cel.ly">blog </a></li>
-                            <li><a title="contact" target="_blank" href="http://cel.ly/contact">contact </a></li>
-                        </ul>
-                    </li>
+                    <li><a id="logout" title="logout" href="#">logout</a></li>
+                    <li><a id="about_bookmarklet" title="about celly bookmakrlet" href="#">about celly bookmarklet</a>
                 </ul>
             </section>
         </nav>
-    </head>
-    <body>
-
-        <!-- This is the celly image, always centered on the page -->
+        
+        <div id="success_alert" data-alert class="reveal-modal">
+          <label style="color:#00FF00;font-weight:bold;"></label>
+          <a href="#" class="close-reveal-modal">&times;</a>
+        </div>
+        
+        <div id="failure_alert" data-alert class="reveal-modal">
+          <label style="color: #F00;font-weight:bold;">API Failed</label>
+          <a href="#" class="close-reveal-modal">&times;</a>
+        </div>
+        <div id="about_bookmarklet_modal" data-alert class="reveal-modal">
+          <h2 style="color: #aaa;">Welcome to the celly bookmarklet</h2>
+          <p>This bookmarklet was created to simplify posting of URL's to multiple cells.</p>
+          <p>The celly bookmarklet grabs the url from the current page and displays it in the text area.</p>
+          <p>Select one or more cells, then you are ready to post! :)</p>
+          <a href="#" class="close-reveal-modal">&times;</a>
+        </div>
         <div class="row" align="center">
-            <div class="large-12 columns">
-                <img src="https://dneprqwuiln6a.cloudfront.net/celly/images/logoBlackText200.png"
-                    alt="Celly Logo"> 
+            <div class="large-12 columns" style="height: 96px;">
+                <div id="usrLogo" style="height: 75px;"></div>
+                <label id="usrName" style="font-size: 6; cursor: default;"></label> 
             </div>
         </div>
-
-        <!--  This contains cells drop down and it's label.  Strech when small, 
-        center when lagre, 4 columns wide -->
+        <!--  This contains cells drop down and it's label.  Strech when small, center when lagre, 4 columns wide -->
         <div class="row">
-            <!-- put in blank column so when the screen is large it goes 
-            to the center -->
             <div class="large-4 columns"><label></label></div>
             <div class="large-4 columns">
                 <label for="cellDropDown">Select a Cell</label>
-                <select id="cellDropDown" data-placeholder="Choose a Cell..."  multiple class="medium chzn-select" >
+                <select id="cellDropDown" data-placeholder="Choose a Cell..."  multiple class="medium chzn-select" style="height: 30px;" >
                 </select>
             </div>
             <div class="large-4 columns"><label></label></div>
         </div>
-
-        <!-- This contains the text area.  Strech when small, center when lagre, 
-        8 columns wide -->
+        <!-- This contains the text area.  Strech when small, center when lagre, 8 columns wide -->
         <div class="row">
             <!-- put in blank column so when the screen is large it 
             goes to the center -->
             <div class="large-2 columns"><label></label></div>
             <div class="large-8 columns">
-                <label>Text Area - Resizable:</label>
-                <textarea placeholder="Post" id="post_textarea">Example: http://www.pdx.edu</textarea>
+                <label>You have&nbsp;<span id="charsLeft"></span>&nbsp;characters remaining</label>
+                <textarea id="post_textarea" placeholder="Post"></textarea>
             </div>
             <div class="large-2 columns"><label></label></div>
         </div>
-
         <!-- This contains the buttons. They are alwyas centered -->
-        <div class="row" align="center">
+        <div class="row submit" align="center">
             <div class="large-12 columns">
-                <a href="#" class="medium button">Post</a>
-                <a href="#" class="medium button">Cancel</a>
+                <a id="post_button" onclick="return false" href="#" class="small button">Post</a>
+                <a id="close_button" onclick="return false" href="#" class="small button">Close</a>
             </div>
         </div>
         <script>
-            /*TODO- Modified to run in local enviroment*/
-            document.write('<script src=../js/vendor/' + ('__proto__' in {} ? 'zepto' : 'jquery') + '.js><\/script>')
-        </script>
-        <!--TODO- Modified to run in local enviroment-->
-        <script src="../js/foundation/foundation.topbar.js"></script>
-        <script src="../js/foundation.min.js"></script>
-        <script>
             $(document).foundation();
+            var elem = $(vars.charsLeft);
+            $(vars.textArea).limiter(vars.maxLengthMessage, elem);
         </script>
     </body>
 </html>

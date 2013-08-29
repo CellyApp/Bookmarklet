@@ -6,6 +6,7 @@
         <title>Celly Bookmarklet Launch Page</title>
         <link rel="stylesheet" href="./css/foundation.css" />
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Dosis">
+        <script type="text/javascript" src="libs/celly/settings.min.js"></script>
         <style>
             body { 
                 font-family: Dosis;
@@ -16,7 +17,9 @@
             }
         </style>
         <script src="js/vendor/custom.modernizr.js"></script>
-        <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <!-- Celly favicon -->
+        <link rel="icon" type="image/png" href="https://cel.ly/favicon.ico">
     </head>
     <body>
         <div class="row" align="center">
@@ -26,7 +29,7 @@
             </div>
         </div>
         <div class="row" align="center">
-            <a onclick="alert('To use this bookmarklet, please drag me into your bookmarks bar and click me there!\n\nThanks!');return false;" href="javascript:void((function(){ w = window.open('http://www.guimelsa.com/celly/bookmarklet/post/?url='+encodeURIComponent(document.URL),'','width=650,height=400,fullscreen=yes,screenX=0,screenY=0,top='+((screen.availHeight-300)/2-100)+',left='+((screen.availWidth-650)/2)+',status=yes,resizable=yes,scrollbars=yes,location=yes'); w.contentWindow.targetIdField = 123456; w.def1 = 'aaaaaaaa'; if(window.focus){w.focus()}})());" class="small button">Celly Bookmarklet</a>
+            <a id="cellyBM" onclick="alert(vars.BMalert);return false;" href="" class="small button"><IMG SRC="https://cel.ly/favicon.ico">Celly Bookmarklet</a>
         </div>
         <script>
             document.write('<script src=' +
@@ -35,8 +38,10 @@
         </script>
         <script src="./js/foundation.min.js"></script>
         <script src="./js/foundation/foundation.topbar.js"></script>
-        <script>
+        <script type="text/javascript">
             $(document).foundation();
+            var hrefBM="javascript:void((function(){ w = window.open('"+vars.postURL+"?url='+encodeURIComponent(document.URL),'','width=650,height=455,screenX=0,screenY=0,top='+((screen.availHeight-300)/2-100)+',left='+((screen.availWidth-650)/2)+',status=yes,resizable=no,scrollbars=yes,location=yes'); if(window.focus){w.focus()}})());";
+            $("#cellyBM").attr('href',hrefBM);
         </script>
     </body>
 </html>

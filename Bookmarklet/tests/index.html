@@ -1,0 +1,46 @@
+<!-- 
+    Author: Travis Johnson 
+    Email: travj@pdx.edu
+-->
+<html>
+  <head>
+    <title>Bookmarklet Unit Testing</title>
+    <link rel="stylesheet" href="nodeunit.css" type="text/css" />
+    <script src="nodeunit.js"></script>
+    <script src="testVars.js"></script>
+    <script src="settings.js"></script>
+    <script src="suite1.js"></script>
+    <script src="suite2.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.js"></script>
+    <script type="text/javascript" src="../js/foundation.min.js"></script>
+    <script type="text/javascript" src="../js/foundation/foundation.topbar.js"></script>
+    <script type="text/javascript" src="../js/foundation/foundation.reveal.js"></script>
+    <script type="text/javascript" src="../js/vendor/custom.modernizr.js"></script>
+    <script type="text/javascript" src="../libs/chosen/public/chosen.jquery.js"></script>
+    <script src="../libs/celly/cellyAPI.js" ></script>
+    <script src="../js/scripts.js" ></script>
+  </head>
+  <body>
+    <h1 id="nodeunit-header">Bookmarklet Unit Testing</h1>
+    <script>
+        //To got proper login and authorization
+        //funcs.init(funcs.populateCells);
+        //Need to wait for the requestAPI to get authorization token
+        setTimeout(function(){
+        nodeunit.run({
+            'Suite One': suite1,
+          });
+        }, 1000);
+
+        /*nodeunit.run({
+            'Suite One': suite1,
+        });*/
+        //Need to wait for the requestAPI to make the posts
+        setTimeout(function(){
+        nodeunit.run({
+            'Suite Two': suite2,
+          });
+        }, 2000);
+    </script>
+  </body>
+</html>

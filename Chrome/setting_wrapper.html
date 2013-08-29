@@ -1,0 +1,39 @@
+<div class="row" align="center">
+	<div class="large-12 columns" style="height: 96px;">
+		<div id="usrLogo" style="height: 75px;"></div>
+		<label id="usrName" style="font-size: 16; cursor: default;"></label>
+		
+	</div>
+</div>
+
+<!--  This contains cells drop down and it's label.  Strech when small, 
+        center when lagre, 4 columns wide -->
+<div class="row">
+	<p class="setting_text" style="margin-top:50px">Background Image:  </p>
+	<dl id="sample" class="dropdown" style="margin-top: -70px; margin-left: 180px;">
+        <dt><a href="#" style="width:150px;"><img class="flag" src="images/setting_imgs/img1.jpg" alt=""><span class="value">img1.jpg</span></a></dt>
+        <dd>
+            <ul style="display: none; z-index:300; width:90px;">
+                <li><a href="#"><img class="flag" src="images/setting_imgs/img1.jpg" alt=""><span class="value">img1.jpg</span></a></li>
+                <li><a href="#"><img class="flag" src="images/setting_imgs/img2.jpg" alt=""><span class="value">img2.jpg</span></a></li>
+                <li><a href="#"><img class="flag" src="images/setting_imgs/img3.jpg" alt=""><span class="value">img3.jpg</span></a></li>
+            </ul>
+        </dd>
+    </dl>
+    <p class="setting_text" style="margin-top:20px">Blacklist:  </p>
+    <div style="margin-top: -50px; margin-left: 100px;">
+		<select	id="blockDropDown" data-placeholder="Choose a Cell..." multiple
+				class="medium chzn-select" style="height: 30px;">
+		</select>
+	</div>
+	
+</div>
+
+<!-- This contains the buttons. They are always centered -->
+<div class="row submit" style="margin-top:20px" align="center">
+	<div class="large-12 columns">
+		<a id="save_button" href="#" class="small button">Save</a>
+		<a id="cancel_button" href="#" class="small button">Cancel</a>
+		<a id="logout_button" href="#" class="small button">Deauthorize</a>
+	</div>
+</div>

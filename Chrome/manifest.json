@@ -1,0 +1,28 @@
+{
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "manifest_version": 2,
+  "name": "Celly Bookmarklet",
+  "version": "1.0",
+  "description": "A fast way to share a favorite URL with your friend on Celly",
+  "icons": {
+	"48": "images/celly-icon-48.png"
+  },
+  "permissions": [
+    "tabs",
+    "pushMessaging",
+    "notifications",
+    "https://accounts.google.com/o/oauth2/token",
+    "https://www.googleapis.com/chromewebstore/v1.1/notifications",
+    "http://cdn-a.cel.ly/celly/images/avatars"
+  ],
+  "key":"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnGyf8e7NCtVhtGCBZ79HaXXQKvWTumOz/BWf6VZkh2VULCMIDUSuf1+3vuaJtEU4cH+OJJnAgQ1jE1OUn+WFjQeTS4T8yAMlscrxfiertOo99UrWAD7dSyV7RpnZ0tigfrSj3MPhCqtlrdU4Er3VsmSpWP/Q6E8eXwGsytfy5dQIDAQAB",
+  "background": {
+	"scripts": ["background.js"],
+	"persistent": false
+  },
+  "browser_action": {
+      "default_title": "Celly Bookmarks.",
+      "default_icon": "images/celly-icon-19.png"
+  },
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'"
+}

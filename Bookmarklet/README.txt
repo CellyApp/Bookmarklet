@@ -13,3 +13,6 @@ GOALS:
 * token page returns access_token
 * javascript saves access_token to cookie (for later requests)
 * javascript makes requests for cells
+* user writes the message and select cells
+* javascript send messages to each cell and confirm success
+* windows is closed automatically

@@ -1,158 +1,127 @@
-var funcs={
-    getArguments:function() { //GET URL arguments
-        var query_string = {};
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
-            if (typeof query_string[pair[0]] === "undefined") {
-                query_string[pair[0]] = pair[1];
-            } else if (typeof query_string[pair[0]] === "string") {
-                var arr = [ query_string[pair[0]], pair[1] ];
-                query_string[pair[0]] = arr;
-            } else {
-                query_string[pair[0]].push(pair[1]);
-            }
-        } 
-        return query_string;
-    },    
-    getCookie:function (c_name) { // This functions returns the value of a cookie stored with name 'c_name' in the user's browser
-        var c_value = document.cookie;
-        var c_start = c_value.indexOf(" " + c_name + "=");
-        if (c_start == -1){
-            c_start = c_value.indexOf(c_name + "=");
-        }
-        if (c_start == -1){
-            c_value = null;
-        }
-        else {
-            c_start = c_value.indexOf("=", c_start) + 1;
-            var c_end = c_value.indexOf(";", c_start);
-            if (c_end == -1) {
-                c_end = c_value.length;
-            }
-            c_value = unescape(c_value.substring(c_start,c_end));
-        }
-        return c_value;
-    },
-    setCookie:function (c_name,value) { //This function sets a cookie with name 'c_name' and value 'value' with a very long expiration date
-        var exdate=new Date();
-        exdate.setTime(exdate.getTime()+2000000000);
-        var c_value=escape(value) + "; expires="+exdate.toUTCString();
-        document.cookie=c_name + "=" + c_value+";domain=.guimelsa.com;path=/";
-    },
-    createCORSRequest:function (method, url) { 
-        var xhr = new XMLHttpRequest();
-        if ("withCredentials" in xhr) {
-            // Check if the XMLHttpRequest object has a "withCredentials" property.
-            // "withCredentials" only exists on XMLHTTPRequest2 objects.
-            xhr.open(method, url, true);
-        } else if (typeof XDomainRequest != "undefined") {
-            // Otherwise, check if XDomainRequest.
-            // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-            xhr = new XDomainRequest();
-            xhr.open(method, url);
-        } else {
-            // Otherwise, CORS is not supported by the browser.
-            xhr = null;
-        }
-        return xhr;
-    },
-    getCells:function(){
-        var url=vars.apiURL+"/me?oauth_token="+accTok;
-        var xhr = funcs.createCORSRequest('GET', url);
-        xhr.onload = function() {
-            var responseText = xhr.responseText;
-            var responseJSON=$.parseJSON( responseText );
-            funcs.populateCells(responseJSON['response']['cells']);
-        };
-        xhr.onerror = function() {
-            console.log('There was an error!');
-            //TODO: try again, otherwise notify user
-        };
-        xhr.send(); 
-    },
-    populateCells:function(cells){
-        for(var i=0;i<cells.length;i++){
-            $(vars.dropDown).append($("<option></option>").attr("value",cells[i].entityId).text(cells[i].name));
-        }
-        $('.chzn-select').chosen({});
-    },
-    postCORS:function(URI,onLoadFunc,data,type){
-        var xhr = funcs.createCORSRequest('POST', vars.apiURL+URI);
-        xhr.withCredential = "true";
-        xhr.setRequestHeader('Content-Type', 'application/'+(type=='json'?'json':'x-www-form-urlencoded'));
-        if (!xhr) {
-            throw new Error('CORS not supported');
-        }
-        xhr.onload =onLoadFunc;
-        xhr.onerror = function() {
-            console.log('There was an error!');
-        };
-        var dataToSend=(type=='json'?JSON.stringify(data):funcs.serialize(data));
-        xhr.send(funcs.serialize(data));
-        return xhr;
-    },
-    postXwwwForm:function(URI,onLoadFunc,data){
-        return funcs.postCORS(URI,onLoadFunc,data,'x-www');
-    },
-    postJSON:function(URI,onLoadFunc,data){
-        return funcs.postCORS(URI,onLoadFunc,data,'json');
-    },
-    closeWindow: function(){
-            window.close();
+if(vars.QueryString.url) vars.QueryString.url=decodeURIComponent(vars.QueryString.url);
+
+//This variable requires the QueryString object, which is loaded after the load of cellyAPI.js
+vars.redirectURL=vars.postURL+"?url="+encodeURIComponent(vars.QueryString.url);
+
+//Extended functions from cellyAPI
+/*
+* Function: populateCells
+* Arguments: NONE
+* Task: Add list of cells to the dropdown, adds the avatar
+* and username from /me
+*/
+funcs.populateCells=function(){
+    for(var i=0;i<vars.me.cells.length;i++){
+        $(vars.dropDown).append($("<option></option>").attr("value",vars.me.cells[i].entityId).text(vars.me.cells[i].name));
     }
+    $('.chzn-select').chosen({width: "100%"});
+    if(vars.me.hasAvatar && vars.me.avatar) $(vars.usrLogo).append($("<img>").attr('src',vars.cellyImagesFolder+vars.me.avatar+".png"));
+    if(vars.me.userName) $(vars.usrName).html("@"+vars.me.userName);
 };
 
-var vars={
-    client_id:"", // removed for security
-    client_secret:"", // removed for security
-    apiURL:"http://api.cel.ly/api",
-    postURL:"http://guimelsa.com/celly/bookmarklet/post/",
-    QueryString:{},
-    textArea:"#post_textarea",
-    dropDown:"#cellDropDown"
+/*
+* Function: onError
+* Arguments:
+* status - type of error from API Server
+* error - description of the error
+* Task: Overwrite onError function to display the errors to
+* the user
+*/
+funcs.onError=function(xhr, status, error){
+    $(vars.failureAlert).foundation('reveal', 'open');
+    $(vars.failureAlert+" label").html("Error"+(status!=""?" ":"")+status+": "+error);
 }
-vars.QueryString=funcs.getArguments();
-var accTok=funcs.getCookie('access_token');
-if(accTok==null){
-    if(typeof vars.QueryString.code=="undefined"){
-        document.location.href = vars.apiURL+"/authorize?client_id="+vars.client_id+"&redirect_uri="+vars.postURL+"?url="+encodeURIComponent(vars.QueryString.url)+"&scope=BASIC";
-    }
-    var data={client_id:vars.client_id,client_secret:vars.client_secret,grant_type:"authorization_code",redirect_uri:"blah",code:vars.QueryString.code};
-    var xhr=funcs.postXwwwForm("/token",function() {
-            var responseText = xhr.responseText;
-            var responseJSON=$.parseJSON( responseText );
-            accTok=responseJSON['access_token'];
-            if(accTok!=null && typeof accTok!="undefined"){
-                funcs.setCookie("access_token",responseJSON['access_token']);
-            }
-            funcs.getCells();
-        },data);
-} else {
-    funcs.getCells();
-}
-$(document).ready(function(){
-        $(vars.textArea).text("This is your desired URL - " + decodeURIComponent(vars.QueryString.url));
 
-        {message:{body:"some text"}};
-        $("#post_button").click(function(){
+/* Function: success
+* Arguments:
+* message - displays the response from API server
+* action - closeWindow()
+* wait - time to close the window
+* Task: Display success 'message' and close the window 
+* (or executes action) after 5 seconds or after clicking in 'x'
+*/
+funcs.success=function(message,action,wait){
+    $(vars.successAlert).foundation('reveal', 'open');
+    action=action||function(){window.close()};
+    wait=wait||5000;
+    $(vars.successAlert+" label").html(message);
+    $(vars.successAlert+" a").click(action);
+    window.setTimeout(action,wait);
+}
+
+// If browser is Internet Explorer then wait until document is ready to make requests to the API
+if(!vars.ie) funcs.init(funcs.populateCells);
+
+$(document).ready(function(){
+        if(vars.ie) funcs.init(funcs.populateCells);
+        // Set default text in textarea using the 'url' in 'QueryString'
+        $(vars.textArea).val(vars.messageText + vars.QueryString.url);
+        $(vars.charsLeft).val(vars.maxLengthMessage-(vars.messageText + vars.QueryString.url).length);
+        // Listen to click on post button
+        $(vars.postButton).click(function(){
+                // post message for each cell selected
+                if($('.chzn-select :selected').length==0) funcs.onError({},'',vars.noCellsSelected)
                 $.each($('.chzn-select').val(),function(key,value){
-                        var data={
-                            "oauth_token" : accTok,
-                            "message" : {
-                                "body" : $(vars.textArea).val(),
-                                "cellId" : value,
-                                "type" : "DIRECT"    // Optionally add this if cellId is a userId, and this is a direct message
-                            }
-                        }
-                        var xhr=funcs.postJSON("/messages",function() {
-                                console.log(xhr.responseText);
-                                var responseJSON=$.parseJSON( responseText );
-                            },data);
+                        var data={"oauth_token" : vars.accTok,"message" : {"body" : $(vars.textArea).val(),"cellId" : value}}
+                        funcs.requestAPI('json','/messages',data,function(response){
+                                //TODO: verify that each request was done successful, and then call just one time either to the success or onError function
+                                //Verify that response is correct, otherwise there was an error
+                                if(response.stat && response.stat=="OK" && response.response.time){
+                                    funcs.success(vars.successMessage);
+                                } else if(response.error && response.description) {
+                                    funcs.onError({},response.error,response.description);
+                                } else{
+                                    funcs.onError({},"",vars.unexpectedError);
+                                }
+                        });
                 });
         });
-        $("#cancel_button").click(function(){
-            funcs.closeWindow();
-        })
+        // On cancel logout
+        $(vars.closeButton).click(function(){
+                window.close();
+        });
+        // On about bookmarklet open modal
+        $(vars.about_bookmarklet).click(function(){
+                $(vars.about_bookmarklet_modal).foundation('reveal', 'open');
+                $(vars.topBar).removeClass('expanded');
+                $(vars.topBar).removeAttr('style');
+        });
+        // Open any external link in a new tab and close the bookmarklet
+        $('a[target|="_blank"]').click(function(){
+                window.open($(this).attr('href'),'_blank');
+                window.close();
+        });
+        // On logout topbar choice logout
+        $(vars.logout).click(function(){
+                funcs.deleteCookie(vars.accTokCookie);
+                funcs.success(vars.loggedOut,function(){
+                        document.location.href = vars.logoutURL;
+                    },1000);
+        });
 });
+
+//Taken from http://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
+/* Function: jQuery.limiter
+* Arguments: 
+* limit - Number of characters to set as a maximum, integer
+* elem - jQuery element representing the target object to display the characters remaining
+* Task: This is a visual way to set the limit of charactes in a textarea or input
+*/
+(function($) {
+        $.fn.extend( {
+                limiter: function(limit, elem) {
+                    $(this).on("keyup focus", function() {
+                            setCount(this, elem);
+                    });
+                    function setCount(src, elem) {
+                        var chars = src.value.length;
+                        if (chars > limit) {
+                            src.value = src.value.substr(0, limit);
+                            chars = limit;
+                        }
+                        elem.html( limit - chars );
+                    }
+                    setCount($(this)[0], elem);
+                }
+        });
+})(jQuery);
